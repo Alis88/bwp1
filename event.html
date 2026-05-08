@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>تفاصيل الفعالية | دليل فعاليات الجامعة الافتراضية</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
+  <link href="assets/css/styles.css" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+      <div class="container">
+        <a class="navbar-brand fw-bold" href="index.html">دليل فعاليات الجامعة الافتراضية</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="mainNav">
+          <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+            <li class="nav-item"><a class="nav-link" href="index.html">الرئيسية</a></li>
+            <li class="nav-item"><a class="nav-link" href="events.html">كل الفعاليات</a></li>
+            <li class="nav-item"><a class="nav-link active" href="event.html">تفاصيل فعالية</a></li>
+            <li class="nav-item"><a class="nav-link" href="about.html">عن الدليل</a></li>
+            <li class="nav-item"><a class="nav-link" href="contact.html">اتصل بنا</a></li>
+          </ul>
+          <button class="dark-mode-btn" id="darkModeToggle">🌙</button>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main class="container py-4" id="dynamicEventContent">
+    <!-- سيتم تعبئة المحتوى ديناميكياً بواسطة JavaScript -->
+  </main>
+
+  <footer class="bg-dark text-white py-4 text-center">© 2026 دليل فعاليات الجامعة الافتراضية</footer>
+  <button class="back-to-top" id="backToTopBtn">↑</button>
+
+  <!-- Modal للحجز الوهمي -->
+  <div class="modal fade" id="bookingModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header"><h5 class="modal-title">حجز وهمي</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+        <div class="modal-body"><input type="text" id="bookingName" class="form-control" placeholder="اسمك"></div>
+        <div class="modal-footer"><button class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button><button class="btn btn-primary" id="confirmBooking">تأكيد</button></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/js/main.js"></script>
+  <script>
+    // قاعدة بيانات الفعاليات (نفس البيانات المستخدمة سابقاً)
+    const eventsDB = {
+      1: { title: "أسبوع الابتكار الرقمي", category: "تقنية", badge: "text-bg-danger", date: "12 - 14 أيار 2026", location: "أونلاين عبر منصة الجامعة", time: "من 5:00 إلى 8:00 مساءً", description: "فعالية جامعية تجمع ورشًا قصيرة وجلسات حوارية حول الابتكار، الذكاء الاصطناعي، وتصميم الخدمات الرقمية.", fullDesc: "تشمل الفعالية ورشة لبناء نموذج أولي لخدمة طلابية، وجلسة تعريفية بالذكاء الاصطناعي، ونقاشًا حول العمل الجماعي.", mainImage: "assets/img/innovation-workshop.jpg", gallery: ["assets/img/team-meeting.jpg","assets/img/workshop-session.jpg","assets/img/presentation.jpg"], mapImage: "assets/img/event-map.jpg" },
+      2: { title: "ملتقى القراءة الجامعي", category: "ثقافة", badge: "text-bg-primary", date: "15 أيار 2026", location: "دمشق - مكتبة الجامعة", time: "من 4:00 إلى 7:00 مساءً", description: "نقاش مفتوح حول القراءة وأثرها في بناء شخصية الطالب.", fullDesc: "جلسة حوارية مع كتّاب ومؤلفين، وورشة قراءة سريعة، وتوزيع كتب.", mainImage: "assets/img/reading-meetup.jpg", gallery: ["assets/img/reading-meetup.jpg","assets/img/team-meeting.jpg","assets/img/presentation.jpg"], mapImage: "assets/img/event-map.jpg" },
+      3: { title: "أمسية مواهب طلابية", category: "موسيقى", badge: "text-bg-info", date: "18 أيار 2026", location: "حلب - المسرح الجامعي", time: "من 6:00 إلى 9:00 مساءً", description: "مساحة للغناء والعزف والعروض الفنية الخفيفة.", fullDesc: "عروض موسيقية حية، فقرات فنية، واكتشاف المواهب الطلابية.", mainImage: "assets/img/music-evening.jpg", gallery: ["assets/img/music-evening.jpg","assets/img/workshop-session.jpg","assets/img/team-meeting.jpg"], mapImage: "assets/img/event-map.jpg" },
+      4: { title: "بطولة الرياضات الإلكترونية", category: "رياضة", badge: "text-bg-success", date: "20 أيار 2026", location: "أونلاين (منصة Discord)", time: "من 3:00 إلى 9:00 مساءً", description: "منافسات فرق ودية وتنظيم مباشر للطلاب.", fullDesc: "بطولة FIFA وValorant مع جوائز رمزية وفرصة للتفاعل.", mainImage: "assets/img/esports-tournament.jpg", gallery: ["assets/img/esports-tournament.jpg","assets/img/team-meeting.jpg","assets/img/presentation.jpg"], mapImage: "assets/img/event-map.jpg" },
+      5: { title: "يوم العائلة الجامعي", category: "عائلي", badge: "text-bg-warning", date: "22 أيار 2026", location: "دمشق - الحرم الجامعي", time: "من 10:00 صباحاً إلى 4:00 مساءً", description: "نشاطات خفيفة ومسابقات تعريفية للعائلات.", fullDesc: "ألعاب عائلية، أركان ترفيهية، مسابقات ثقافية، ووجبات خفيفة.", mainImage: "assets/img/family-day.jpg", gallery: ["assets/img/family-day.jpg","assets/img/workshop-session.jpg","assets/img/reading-meetup.jpg"], mapImage: "assets/img/event-map.jpg" }
+    };
+
+    const urlParams = new URLSearchParams(window.location.search);
+    let eventId = urlParams.get('id');
+    if (!eventId || !eventsDB[eventId]) eventId = "1";
+    const ev = eventsDB[eventId];
+
+    const container = document.getElementById('dynamicEventContent');
+    container.innerHTML = `
+      <section class="row g-4 align-items-center mb-5">
+        <div class="col-lg-7">
+          <span class="badge ${ev.badge} mb-3">${ev.category}</span>
+          <h1>${ev.title}</h1>
+          <p class="lead">${ev.description}</p>
+          <div class="d-flex flex-wrap gap-2 mb-3">
+            <span class="badge bg-light text-dark">${ev.date}</span>
+            <span class="badge bg-light text-dark">${ev.location}</span>
+            <span class="badge bg-light text-dark">${ev.time}</span>
+          </div>
+          <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#bookingModal">احجز مكانًا</button>
+          <button class="btn btn-outline-primary" id="calendarBtn">أضف للتقويم</button>
+          <button class="btn btn-outline-secondary" id="shareBtn">شارك</button>
+          <div class="mt-3" id="actionMessage"></div>
+        </div>
+        <div class="col-lg-5">
+          <img src="${ev.mainImage}" class="img-fluid rounded" alt="${ev.title}">
+        </div>
+      </section>
+      <section class="mb-5">
+        <h2>الوصف الكامل</h2>
+        <p>${ev.fullDesc}</p>
+        <div class="row g-3">
+          ${ev.gallery.map(img => `<div class="col-md-4"><img src="${img}" class="img-fluid rounded"></div>`).join('')}
+        </div>
+      </section>
+      <section class="mb-5">
+        <h2>الموقع</h2>
+        <img src="${ev.mapImage}" class="img-fluid rounded" alt="خريطة">
+      </section>
+      <section class="mb-5">
+        <h2>فعاليات ذات صلة</h2>
+        <div class="row g-4">
+          <div class="col-md-4"><a class="card p-3 text-decoration-none text-dark" href="event.html?id=1">أسبوع الابتكار الرقمي</a></div>
+          <div class="col-md-4"><a class="card p-3 text-decoration-none text-dark" href="event.html?id=3">أمسية مواهب طلابية</a></div>
+          <div class="col-md-4"><a class="card p-3 text-decoration-none text-dark" href="event.html?id=4">بطولة الرياضات الإلكترونية</a></div>
+        </div>
+      </section>
+    `;
+
+    document.getElementById('calendarBtn')?.addEventListener('click', () => {
+      document.getElementById('actionMessage').innerHTML = '<div class="alert alert-success">تمت إضافة تذكير وهمي للتقويم.</div>';
+    });
+    document.getElementById('shareBtn')?.addEventListener('click', async () => {
+      if (navigator.share) await navigator.share({ title: ev.title, url: location.href });
+      else document.getElementById('actionMessage').innerHTML = '<div class="alert alert-info">انسخ رابط الصفحة للمشاركة.</div>';
+    });
+    document.getElementById('confirmBooking')?.addEventListener('click', () => {
+      const name = document.getElementById('bookingName')?.value;
+      document.getElementById('actionMessage').innerHTML = `<div class="alert alert-success">تم الحجز الوهمي ${name ? 'لـ ' + name : ''} بنجاح.</div>`;
+      const modal = bootstrap.Modal.getInstance(document.getElementById('bookingModal'));
+      modal?.hide();
+    });
+  </script>
+</body>
+</html>
